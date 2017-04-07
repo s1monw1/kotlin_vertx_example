@@ -25,7 +25,7 @@ class WebVerticle : AbstractVerticle() {
             vertx.eventBus().send(ACTION, serviceReq, { reply: AsyncResult<Message<Any>> ->
                 val replyBody = reply.result()?.body() as JsonObject
                 LOG.debug("Got Reply from event consumer: $replyBody")
-                req.response().end(replyBody.encodePrettily())
+                req.response().putHeader("Content-Type", "application/json").end(replyBody.encodePrettily())
             })
         }.listen(8181)
     }
