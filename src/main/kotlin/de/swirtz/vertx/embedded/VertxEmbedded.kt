@@ -1,4 +1,4 @@
-package de.swirtz.vertx
+package de.swirtz.vertx.embedded
 
 import io.vertx.core.*
 
