@@ -1,4 +1,4 @@
-package de.swirtz.vertx.standalone.webserver
+package de.swirtz.vertx.standalone.webserver.verticles
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject

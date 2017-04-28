@@ -1,5 +1,6 @@
 package de.swirtz.vertx.standalone.webserver
 
+import de.swirtz.vertx.standalone.webserver.verticles.ServiceVerticle
 import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
 
@@ -22,6 +23,6 @@ fun main(args: Array<String>) {
 
     val opt = DeploymentOptions()
     opt.instances = 2
-    deploy("de.swirtz.vertx.standalone.webserver.ServiceVerticle")
-    deploy("de.swirtz.vertx.standalone.webserver.WebVerticle", opt)
+    deploy("de.swirtz.vertx.standalone.webserver.verticles.ServiceVerticle")
+    deploy("de.swirtz.vertx.standalone.webserver.verticles.WebVerticle", opt)
 }
