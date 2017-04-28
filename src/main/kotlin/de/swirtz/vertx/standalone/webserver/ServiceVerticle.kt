@@ -1,4 +1,4 @@
-package de.swirtz.vertx.standalone
+package de.swirtz.vertx.standalone.webserver
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
  */
 
 class ServiceVerticle : AbstractVerticle() {
-    companion object {  
+    companion object {
         val LOG = LoggerFactory.getLogger(ServiceVerticle::class.java)
     }
 
@@ -33,6 +33,6 @@ class ServiceVerticle : AbstractVerticle() {
 //            serviceResp.put("serviceVerticleResp","answering ACTION event")
 //            LOG.debug("Reply Message $serviceResp")
 //            msg.reply(serviceResp)
-        })
+        }).completionHandler{res-> LOG.debug("Consumer for '${WebVerticle.ACTION}' registered: $res")}
     }
 }
