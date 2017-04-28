@@ -1,8 +1,8 @@
 package de.swirtz.vertx.standalone.webserver
 
-import de.swirtz.vertx.standalone.webserver.verticles.ServiceVerticle
 import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
+import org.slf4j.LoggerFactory
 
 /**
  * Created on 07.04.2017.
@@ -10,13 +10,14 @@ import io.vertx.core.Vertx
  */
 
 fun main(args: Array<String>) {
+    val LOG = LoggerFactory.getLogger("My-Vertx-App")
     val vertx = Vertx.vertx()
 
-    fun deploy(verticleFqcn: String, opt: DeploymentOptions = DeploymentOptions()): Unit {
-        vertx.deployVerticle(verticleFqcn, opt, { deploy ->
-            ServiceVerticle.LOG.info("$verticleFqcn has been deployed? ${deploy.succeeded()}")
+    fun deploy(verticleClassName: String, opt: DeploymentOptions = DeploymentOptions()): Unit {
+        vertx.deployVerticle(verticleClassName, opt, { deploy ->
+            LOG.info("$verticleClassName has been deployed? ${deploy.succeeded()}")
             if (!deploy.succeeded()) {
-                ServiceVerticle.LOG.error("$verticleFqcn deploy failed: ${deploy.cause()}", deploy.cause())
+                LOG.error("$verticleClassName deploy failed: ${deploy.cause()}", deploy.cause())
             }
         })
     }

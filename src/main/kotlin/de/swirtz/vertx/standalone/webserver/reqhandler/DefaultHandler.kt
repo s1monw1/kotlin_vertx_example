@@ -1,5 +1,6 @@
 package de.swirtz.vertx.standalone.webserver.reqhandler
 
+import de.swirtz.vertx.standalone.webserver.ACTION_WEB_REQ_RECEIVED
 import de.swirtz.vertx.standalone.webserver.verticles.WebVerticle
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
@@ -16,19 +17,19 @@ import org.slf4j.LoggerFactory
  */
 
 class DefaultHandler(val eventBus: EventBus) : Handler<RoutingContext> {
-    companion object {
+    private companion object {
         val LOG = LoggerFactory.getLogger(DefaultHandler::class.java)
     }
 
     override fun handle(routingContext: RoutingContext) {
         val req = routingContext.request()
-        val reqNum = WebVerticle.reqCount.incrementAndGet()
+        val reqNum = WebVerticle.incrementAndGetCounter()
         LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}")
         val serviceReq = JsonObject().put("request", "request json from WebVerticle").put("query", req.query())
-        LOG.debug("send msg to eventBus:${WebVerticle.ACTION}: $serviceReq")
+        LOG.debug("send msg to eventBus:$ACTION_WEB_REQ_RECEIVED: $serviceReq")
         val opt = DeliveryOptions()
         opt.sendTimeout = 30_000
-        eventBus.send(WebVerticle.ACTION, serviceReq, opt, { reply: AsyncResult<Message<Any>> ->
+        eventBus.send(ACTION_WEB_REQ_RECEIVED, serviceReq, opt, { reply: AsyncResult<Message<Any>> ->
             val response = routingContext.response().putHeader("Content-Type", "application/json")
             if (reply.failed()) {
                 LOG.error("$reqNum. FAILED! ${reply.cause()}")

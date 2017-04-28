@@ -1,5 +1,6 @@
 package de.swirtz.vertx.standalone.webserver.verticles
 
+import de.swirtz.vertx.standalone.webserver.WEB_SRV_PORT
 import de.swirtz.vertx.standalone.webserver.reqhandler.DefaultHandler
 import de.swirtz.vertx.standalone.webserver.reqhandler.SpecialHandler
 import io.vertx.core.AbstractVerticle
@@ -15,10 +16,9 @@ import java.util.concurrent.atomic.AtomicInteger
 class WebVerticle : AbstractVerticle() {
 
     companion object {
-        val ACTION = "webservice.request.received"
-        val LOG = LoggerFactory.getLogger(WebVerticle::class.java)
-        val reqCount = AtomicInteger(0)
-        val port = 8181
+        private val LOG = LoggerFactory.getLogger(WebVerticle::class.java)
+        private val reqCount = AtomicInteger(0)
+        fun incrementAndGetCounter() = reqCount.incrementAndGet()
     }
 
     init {
@@ -34,6 +34,7 @@ class WebVerticle : AbstractVerticle() {
         router.route(HttpMethod.GET, "/").handler(DefaultHandler(eventBus))
         router.route(HttpMethod.GET, "/special").handler(SpecialHandler())
 
-        httpServer.requestHandler({ router.accept(it) }).listen(port)
+        httpServer.requestHandler({ router.accept(it) }).listen(WEB_SRV_PORT)
     }
+
 }

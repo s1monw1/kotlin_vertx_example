@@ -1,5 +1,6 @@
 package de.swirtz.vertx.standalone.webserver.verticles
 
+import de.swirtz.vertx.standalone.webserver.ACTION_WEB_REQ_RECEIVED
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
 import org.slf4j.LoggerFactory
@@ -10,18 +11,18 @@ import org.slf4j.LoggerFactory
  */
 
 class ServiceVerticle : AbstractVerticle() {
-    companion object {
+    private companion object {
         val LOG = LoggerFactory.getLogger(ServiceVerticle::class.java)
     }
 
     override fun start() {
-        vertx.eventBus().consumer<JsonObject>(WebVerticle.ACTION, { msg ->
+        vertx.eventBus().consumer<JsonObject>(ACTION_WEB_REQ_RECEIVED, { msg ->
             LOG.debug("Message ${msg.body()} received!")
             val serviceResp = msg.body()
 
             //some blocking
             vertx.executeBlocking<Any>({ future ->
-                Thread.sleep(20_000)
+                Thread.sleep(10_000)
                 future.complete("Thread finished")
             }, false, { res ->
                 LOG.info("Blocking has finished: ${res.result()}")
@@ -33,6 +34,6 @@ class ServiceVerticle : AbstractVerticle() {
 //            serviceResp.put("serviceVerticleResp","answering ACTION event")
 //            LOG.debug("Reply Message $serviceResp")
 //            msg.reply(serviceResp)
-        }).completionHandler{res-> LOG.debug("Consumer for '${WebVerticle.ACTION}' registered: $res")}
+        }).completionHandler { res -> LOG.debug("Consumer for '$ACTION_WEB_REQ_RECEIVED' registered: $res") }
     }
 }
