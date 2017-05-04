@@ -5,5 +5,5 @@ package de.swirtz.vertx.standalone.webserver
  * @author: simon-wirtz
  */
 
-val ACTION_WEB_REQ_RECEIVED = "webservice.request.received"
-val WEB_SRV_PORT = 8181
+const val ACTION_WEB_REQ_RECEIVED = "webservice.request.received"
+const val WEB_SRV_PORT = 8181
