@@ -37,3 +37,15 @@ sourceSets {
 }
 
 apply plugin: 'kotlin'
+
+archivesBaseName = 'kotlinwithvertx'
+version = '1.0-SNAPSHOT'
+group = 'example'
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.swirtz.vertx.standalone.webserver.StarterKt'
+    }
+
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}

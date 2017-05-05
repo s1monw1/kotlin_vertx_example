@@ -35,16 +35,17 @@ class WebVerticle : AbstractVerticle() {
         //These are optional but might be necessary in other routes
         router.route().handler(BodyHandler.create())
         router.route().handler(CookieHandler.create())
+        router.route().failureHandler{
+            LOG.error("ErrorHandler called! $it")
+            it.response().setStatusCode(501).end("Sorry but I failed")
+        }
+
 
         router.route(HttpMethod.GET, "/").produces(JSON_CONT_TYPE).handler(DefaultHandler(eventBus))
         router.route(HttpMethod.GET, "/special/*").produces(JSON_CONT_TYPE).handler(SpecialHandler())
         router.route(HttpMethod.POST, "/special/:quest").produces(JSON_CONT_TYPE).handler(SpecialHandler())
         router.route(HttpMethod.POST, "/jsonconsume").consumes(JSON_CONT_TYPE).produces(JSON_CONT_TYPE).handler(JsonConsumer())
         router.route(HttpMethod.GET, "/error/*").handler(FailingHandler())
-        router.routeWithRegex(".*").failureHandler{
-            LOG.error("ErrorHandler called! $it")
-            it.response().setStatusCode(501).end("Sorry but I failed")
-        }
 
         //Default:  static file dir is webroot
         router.route("/static/*").handler(StaticHandler.create())
