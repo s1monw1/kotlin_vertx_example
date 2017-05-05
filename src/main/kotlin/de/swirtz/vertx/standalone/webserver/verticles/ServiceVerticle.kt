@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 
 class ServiceVerticle : AbstractVerticle() {
     private companion object {
-        val LOG:Logger = LoggerFactory.getLogger(ServiceVerticle::class.java)
+        private val LOG:Logger = LoggerFactory.getLogger(ServiceVerticle::class.java)
     }
 
     override fun start() {

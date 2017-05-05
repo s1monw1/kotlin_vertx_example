@@ -17,8 +17,6 @@ class WebVerticle : AbstractVerticle() {
 
     companion object {
         private val LOG = LoggerFactory.getLogger(WebVerticle::class.java)
-        private val reqCount = AtomicInteger(0)
-        fun incrementAndGetCounter() = reqCount.incrementAndGet()
     }
 
     init {
@@ -30,7 +28,6 @@ class WebVerticle : AbstractVerticle() {
         val eventBus = vertx.eventBus()
         val httpServer = vertx.createHttpServer()
         val router = Router.router(vertx)
-
         router.route(HttpMethod.GET, "/").handler(DefaultHandler(eventBus))
         router.route(HttpMethod.GET, "/special").handler(SpecialHandler())
 
