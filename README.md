@@ -3,8 +3,8 @@ Simple Kotlin application using VertX to create an HTTP server
 
 This project shows the usage of http://vertx.io/docs/vertx-web/kotlin/
 
-
-Build with: gradle clean jar
-Fat Jar is created in /build/libs
-Run with java -jar jarname
+## Build JAR
+* Build with: _gradle clean jar_
+* Fat Jar is created in _/build/libs_
+* Run with _java -jar jarname_
 
