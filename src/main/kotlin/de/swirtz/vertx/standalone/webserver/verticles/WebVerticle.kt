@@ -7,7 +7,6 @@ import io.vertx.core.AbstractVerticle
 import io.vertx.core.http.HttpMethod
 import io.vertx.ext.web.Router
 import org.slf4j.LoggerFactory
-import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Created on 07.04.2017.
@@ -24,14 +23,13 @@ class WebVerticle : AbstractVerticle() {
     }
 
     override fun start() {
-        LOG.debug("WebVerticle start called")
+        LOG.debug("WebVerticle start called; Going to register Router")
         val eventBus = vertx.eventBus()
-        val httpServer = vertx.createHttpServer()
         val router = Router.router(vertx)
         router.route(HttpMethod.GET, "/").handler(DefaultHandler(eventBus))
         router.route(HttpMethod.GET, "/special").handler(SpecialHandler())
 
-        httpServer.requestHandler({ router.accept(it) }).listen(WEB_SRV_PORT)
+        vertx.createHttpServer().requestHandler({ router.accept(it) }).listen(WEB_SRV_PORT)
     }
 
 }

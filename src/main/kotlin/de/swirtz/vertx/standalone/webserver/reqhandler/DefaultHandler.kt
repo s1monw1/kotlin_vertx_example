@@ -1,6 +1,7 @@
 package de.swirtz.vertx.standalone.webserver.reqhandler
 
 import de.swirtz.vertx.standalone.webserver.ACTION_WEB_REQ_RECEIVED
+import de.swirtz.vertx.standalone.webserver.JSON_CONT_TYPE
 import de.swirtz.vertx.standalone.webserver.verticles.WebVerticleRequestCounter
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
@@ -30,7 +31,7 @@ class DefaultHandler(val eventBus: EventBus) : Handler<RoutingContext> {
         val opt = DeliveryOptions()
         opt.sendTimeout = 30_000
         eventBus.send(ACTION_WEB_REQ_RECEIVED, serviceReq, opt, { reply: AsyncResult<Message<Any>> ->
-            val response = routingContext.response().putHeader("Content-Type", "application/json")
+            val response = routingContext.response().putHeader("Content-Type", JSON_CONT_TYPE)
             if (reply.failed()) {
                 LOG.error("$reqNum. FAILED! ${reply.cause()}")
                 response.setStatusCode(500).end("{\"error\": \" ${reply.cause()}: error returned by ServiceVerticle!\"}")

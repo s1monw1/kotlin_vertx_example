@@ -1,6 +1,6 @@
 package de.swirtz.vertx.standalone.webserver.reqhandler
 
-import de.swirtz.vertx.standalone.webserver.verticles.WebVerticle
+import de.swirtz.vertx.standalone.webserver.JSON_CONT_TYPE
 import de.swirtz.vertx.standalone.webserver.verticles.WebVerticleRequestCounter
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
@@ -20,7 +20,7 @@ class SpecialHandler : Handler<RoutingContext> {
         val req = routingContext.request()
         val reqNum = WebVerticleRequestCounter.incrementAndGetCounter()
         LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}")
-        val response = routingContext.response().putHeader("Content-Type", "application/json")
+        val response = routingContext.response().putHeader("Content-Type", JSON_CONT_TYPE)
         response.setStatusCode(200).end("{\"specialcontent\": \"hello world\"}")
     }
 
