@@ -34,11 +34,15 @@ class DefaultHandler(val eventBus: EventBus) : Handler<RoutingContext> {
             val response = routingContext.response().putHeader("Content-Type", JSON_CONT_TYPE)
             if (reply.failed()) {
                 LOG.error("$reqNum. FAILED! ${reply.cause()}")
-                response.setStatusCode(500).end("{\"error\": \" ${reply.cause()}: error returned by ServiceVerticle!\"}")
+                val resp = "{\"error\": \" ${reply.cause()}: error returned by ServiceVerticle!\"}"
+                response.setStatusCode(500).end(resp)
+                LOG.debug("$reqNum. Ended Request with: $resp")
             } else {
                 val replyBody = reply.result()?.body() as? JsonObject
                 LOG.debug("$reqNum. Got Reply from event consumer: $replyBody")
-                response.setStatusCode(200).end(replyBody?.encodePrettily() ?: "{\"error\": \"null returned by ServiceVerticle!\"}")
+                val resp = replyBody?.encodePrettily() ?: "{\"error\": \"null returned by ServiceVerticle!\"}"
+                response.setStatusCode(200).end(resp)
+                LOG.debug("$reqNum. Ended Request with: $resp")
             }
         })
     }
