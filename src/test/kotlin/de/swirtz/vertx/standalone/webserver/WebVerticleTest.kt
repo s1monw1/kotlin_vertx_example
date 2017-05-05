@@ -50,6 +50,7 @@ class WebVerticleTest {
             response.bodyHandler { body ->
                 val resp = body.getString(0, body.length())
                 LOG.debug("Response: $resp")
+                context.assertNotNull(body.toJsonObject().getString("specialcontent"))
             }
             //response.headers().forEach{LOG.info("found header $it")}
             //context.assertEquals(JSON_CONT_TYPE, response.headers().filter { it.key == "Content-Type" }.map { it.value })
