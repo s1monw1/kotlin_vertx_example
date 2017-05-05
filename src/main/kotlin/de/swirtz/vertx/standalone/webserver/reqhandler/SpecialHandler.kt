@@ -21,10 +21,9 @@ class SpecialHandler : Handler<RoutingContext> {
         val req = routingContext.request()
         val reqNum = WebVerticleRequestCounter.incrementAndGetCounter()
         val questParam = routingContext.request().getParam("quest")
-        LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}, quest=$questParam")
-        val response = routingContext.response().putHeader("Content-Type", JSON_CONT_TYPE)
+        LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}, quest=$questParam, acceptablecontent: ${routingContext.acceptableContentType}")
         val resp = "{\"specialcontent\": \"hello world: ${questParam ?: "noParam"}\"}"
-        response.setStatusCode(200).end(resp)
+        routingContext.response().setStatusCode(200).end(resp)
         LOG.debug("$reqNum. Ended Request with: $resp")
     }
 

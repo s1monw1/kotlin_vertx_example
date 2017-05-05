@@ -31,7 +31,7 @@ class DefaultHandler(val eventBus: EventBus) : Handler<RoutingContext> {
         val opt = DeliveryOptions()
         opt.sendTimeout = 30_000
         eventBus.send(ACTION_WEB_REQ_RECEIVED, serviceReq, opt, { reply: AsyncResult<Message<Any>> ->
-            val response = routingContext.response().putHeader("Content-Type", JSON_CONT_TYPE)
+            val response = routingContext.response()
             if (reply.failed()) {
                 LOG.error("$reqNum. FAILED! ${reply.cause()}")
                 val resp = "{\"error\": \" ${reply.cause()}: error returned by ServiceVerticle!\"}"

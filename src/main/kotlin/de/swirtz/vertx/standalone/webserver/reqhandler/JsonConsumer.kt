@@ -20,9 +20,8 @@ class JsonConsumer : Handler<RoutingContext> {
         val req = routingContext.request()
         val reqNum = WebVerticleRequestCounter.incrementAndGetCounter()
         LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}, request: $bodyAsString")
-        val response = routingContext.response().putHeader("Content-Type", JSON_CONT_TYPE)
         val resp = "{\"jsonanswer\": \"anyresponse\"}"
-        response.setStatusCode(200).end(resp)
+        routingContext.response().setStatusCode(200).end(resp)
         LOG.debug("$reqNum. Ended Request with: $resp")
     }
 

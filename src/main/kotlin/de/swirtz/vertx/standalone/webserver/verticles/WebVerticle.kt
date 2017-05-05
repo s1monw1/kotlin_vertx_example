@@ -10,7 +10,7 @@ import io.vertx.core.AbstractVerticle
 import io.vertx.core.http.HttpMethod
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
-import io.vertx.ext.web.handler.CookieHandler
+import io.vertx.ext.web.handler.ResponseContentTypeHandler
 import io.vertx.ext.web.handler.StaticHandler
 import io.vertx.ext.web.handler.TemplateHandler
 import io.vertx.ext.web.templ.ThymeleafTemplateEngine
@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory
 /**
  * Created on 07.04.2017.
  * @author: simon-wirtz
+ *
+ * Verticle to start a Webserver with different routes
  */
 class WebVerticle : AbstractVerticle() {
 
@@ -36,12 +38,12 @@ class WebVerticle : AbstractVerticle() {
         val router = Router.router(vertx)
         //These are optional but might be necessary in other routes
         router.route().handler(BodyHandler.create())
-        router.route().handler(CookieHandler.create())
+        //router.route().handler(CookieHandler.create())
         router.route().failureHandler {
-            LOG.error("ErrorHandler called! $it")
             it.response().setStatusCode(501).end("Sorry but I failed")
         }
-
+        //Adds Content-Tyoe Header
+        router.route().handler(ResponseContentTypeHandler.create())
 
         router.route(HttpMethod.GET, "/").produces(JSON_CONT_TYPE).handler(DefaultHandler(eventBus))
         router.route(HttpMethod.GET, "/special/*").produces(JSON_CONT_TYPE).handler(SpecialHandler())
