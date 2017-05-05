@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory
 class WebVerticleTest {
 
     val webVertPort = 9191
+    val LOG = LoggerFactory.getLogger(WebVerticleTest::class.java)
 
     @get:Rule
     var rule = RunTestOnContext()
@@ -29,10 +30,6 @@ class WebVerticleTest {
     var timeout = Timeout.seconds(5)
 
     lateinit var vertx: Vertx
-
-    companion object {
-        val LOG = LoggerFactory.getLogger(WebVerticleTest::class.java)
-    }
 
     @Before
     fun setup(context: TestContext) {
@@ -49,11 +46,18 @@ class WebVerticleTest {
         val async = context.async()
         client.getNow(webVertPort, "localhost", "/special", { response ->
             LOG.debug("Received response with status code ${response.statusCode()}")
+            context.assertEquals(200, response.statusCode())
+            response.bodyHandler { body ->
+                val resp = body.getString(0, body.length())
+                LOG.debug("Response: $resp")
+            }
+            //response.headers().forEach{LOG.info("found header $it")}
+            //context.assertEquals(JSON_CONT_TYPE, response.headers().filter { it.key == "Content-Type" }.map { it.value })
             async.complete()
         })
     }
 
-    @Test(timeout = 3_000)
+    @Test
     fun exampleTest(context: TestContext) {
         val async = context.async()
 

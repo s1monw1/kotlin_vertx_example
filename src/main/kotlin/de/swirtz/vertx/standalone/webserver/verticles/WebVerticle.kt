@@ -42,7 +42,7 @@ class WebVerticle(val port: Int = WEB_SRV_PORT) : AbstractVerticle() {
         router.route().failureHandler {
             it.response().setStatusCode(501).end("Sorry but I failed")
         }
-        //Adds Content-Tyoe Header
+        //Adds Content-Type Header
         router.route().handler(ResponseContentTypeHandler.create())
 
         router.route(HttpMethod.GET, "/").produces(JSON_CONT_TYPE).handler(DefaultHandler(eventBus))
