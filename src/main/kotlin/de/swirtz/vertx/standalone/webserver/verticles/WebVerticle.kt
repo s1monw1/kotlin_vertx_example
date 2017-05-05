@@ -12,6 +12,8 @@ import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.CookieHandler
 import io.vertx.ext.web.handler.StaticHandler
+import io.vertx.ext.web.handler.TemplateHandler
+import io.vertx.ext.web.templ.ThymeleafTemplateEngine
 import org.slf4j.LoggerFactory
 
 /**
@@ -35,7 +37,7 @@ class WebVerticle : AbstractVerticle() {
         //These are optional but might be necessary in other routes
         router.route().handler(BodyHandler.create())
         router.route().handler(CookieHandler.create())
-        router.route().failureHandler{
+        router.route().failureHandler {
             LOG.error("ErrorHandler called! $it")
             it.response().setStatusCode(501).end("Sorry but I failed")
         }
@@ -49,6 +51,12 @@ class WebVerticle : AbstractVerticle() {
 
         //Default:  static file dir is webroot
         router.route("/static/*").handler(StaticHandler.create())
+        router.route("/dynamic/*").handler { context ->
+            context.put("foo", "fooValue was added by different handler!")
+            context.next()
+        }
+        val templateEngine = ThymeleafTemplateEngine.create()
+        router.route("/dynamic/*").handler(TemplateHandler.create(templateEngine))
 
         vertx.createHttpServer().requestHandler({ router.accept(it) }).listen(WEB_SRV_PORT)
     }
