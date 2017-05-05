@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory
  *
  * Verticle to start a Webserver with different routes
  */
-class WebVerticle : AbstractVerticle() {
+class WebVerticle(val port: Int = WEB_SRV_PORT) : AbstractVerticle() {
 
     companion object {
         private val LOG = LoggerFactory.getLogger(WebVerticle::class.java)
@@ -51,8 +51,9 @@ class WebVerticle : AbstractVerticle() {
         router.route(HttpMethod.POST, "/jsonconsume").consumes(JSON_CONT_TYPE).produces(JSON_CONT_TYPE).handler(JsonConsumer())
         router.route(HttpMethod.GET, "/error/*").handler(FailingHandler())
 
-        //Default:  static file dir is webroot
+        //Default: static file dir is 'webroot'
         router.route("/static/*").handler(StaticHandler.create())
+        //Default: dynamic file dir is 'templates'
         router.route("/dynamic/*").handler { context ->
             context.put("foo", "fooValue was added by different handler!")
             context.next()
@@ -60,7 +61,9 @@ class WebVerticle : AbstractVerticle() {
         val templateEngine = ThymeleafTemplateEngine.create()
         router.route("/dynamic/*").handler(TemplateHandler.create(templateEngine))
 
-        vertx.createHttpServer().requestHandler({ router.accept(it) }).listen(WEB_SRV_PORT)
+        vertx.createHttpServer().requestHandler({ router.accept(it) }).listen(port, {
+            LOG.info("WebServer listening on $port")
+        })
     }
 
 }

@@ -11,11 +11,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.slf4j.LoggerFactory
-import io.vertx.ext.unit.junit.Repeat
-import io.vertx.ext.unit.junit.RepeatRule
-
-
-
 
 /**
  * Created on 05.05.2017.
@@ -24,6 +19,8 @@ import io.vertx.ext.unit.junit.RepeatRule
 
 @RunWith(VertxUnitRunner::class)
 class WebVerticleTest {
+
+    val webVertPort = 9191
 
     @get:Rule
     var rule = RunTestOnContext()
@@ -37,11 +34,10 @@ class WebVerticleTest {
         val LOG = LoggerFactory.getLogger(WebVerticleTest::class.java)
     }
 
-
     @Before
     fun setup(context: TestContext) {
         vertx = rule.vertx()
-        vertx.deployVerticle(WebVerticle(), context.asyncAssertSuccess {
+        vertx.deployVerticle(WebVerticle(webVertPort), context.asyncAssertSuccess {
             LOG.debug("WebVerticle accessible")
         })
     }
@@ -51,14 +47,14 @@ class WebVerticleTest {
         // Set the default host
         val client = vertx.createHttpClient()
         val async = context.async()
-        client.getNow(WEB_SRV_PORT, "localhost", "/special", { response ->
+        client.getNow(webVertPort, "localhost", "/special", { response ->
             LOG.debug("Received response with status code ${response.statusCode()}")
             async.complete()
         })
     }
 
     @Test(timeout = 3_000)
-    fun exampletest(context: TestContext) {
+    fun exampleTest(context: TestContext) {
         val async = context.async()
 
         vertx.eventBus().consumer<Any>("the-address", { msg ->

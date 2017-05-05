@@ -7,5 +7,4 @@ package de.swirtz.vertx.standalone.webserver
 
 const val ACTION_WEB_REQ_RECEIVED = "webservice.request.received"
 const val WEB_SRV_PORT = 8181
-
 const val JSON_CONT_TYPE = "application/json"

@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
     val LOG = LoggerFactory.getLogger("My-Vertx-App")
     val vertx = Vertx.vertx()
 
-    fun deploy(verticleClassName: String, opt: DeploymentOptions = DeploymentOptions()): Unit {
+    fun deploy(verticleClassName: String, opt: DeploymentOptions = DeploymentOptions()) {
         vertx.deployVerticle(verticleClassName, opt, { deploy ->
             LOG.info("$verticleClassName has been deployed? ${deploy.succeeded()}")
             if (!deploy.succeeded()) {
