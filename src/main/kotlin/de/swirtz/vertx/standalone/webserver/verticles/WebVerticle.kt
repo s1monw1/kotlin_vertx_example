@@ -11,6 +11,7 @@ import io.vertx.core.http.HttpMethod
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.CookieHandler
+import io.vertx.ext.web.handler.StaticHandler
 import org.slf4j.LoggerFactory
 
 /**
@@ -44,6 +45,10 @@ class WebVerticle : AbstractVerticle() {
             LOG.error("ErrorHandler called! $it")
             it.response().setStatusCode(501).end("Sorry but I failed")
         }
+
+        //Default:  static file dir is webroot
+        router.route("/static/*").handler(StaticHandler.create())
+
         vertx.createHttpServer().requestHandler({ router.accept(it) }).listen(WEB_SRV_PORT)
     }
 
