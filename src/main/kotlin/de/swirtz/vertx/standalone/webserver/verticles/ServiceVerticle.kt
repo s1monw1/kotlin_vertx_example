@@ -3,6 +3,7 @@ package de.swirtz.vertx.standalone.webserver.verticles
 import de.swirtz.vertx.standalone.webserver.ACTION_WEB_REQ_RECEIVED
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
@@ -12,7 +13,7 @@ import org.slf4j.LoggerFactory
 
 class ServiceVerticle : AbstractVerticle() {
     private companion object {
-        val LOG = LoggerFactory.getLogger(ServiceVerticle::class.java)
+        val LOG:Logger = LoggerFactory.getLogger(ServiceVerticle::class.java)
     }
 
     override fun start() {
