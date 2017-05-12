@@ -42,13 +42,15 @@ sourceSets {
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'application'
 
 archivesBaseName = 'kotlinwithvertx'
 version = '1.0-SNAPSHOT'
 group = 'example'
+mainClassName = 'de.swirtz.vertx.standalone.webserver.StarterKt'
 jar {
     manifest {
-        attributes 'Main-Class': 'de.swirtz.vertx.standalone.webserver.StarterKt'
+        attributes 'Main-Class': "$mainClassName"
     }
 
 
