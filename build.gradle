@@ -2,7 +2,9 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.1.2"
 }
+
 ext.kotlin_version = '1.1.2'
+ext.vertx_version = '3.4.1'
 
 compileKotlin {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -18,7 +20,6 @@ repositories {
     jcenter()
 
 }
-ext.vertx_version = '3.4.1'
 
 dependencies {
     compile "io.vertx:vertx-core:$vertx_version"
@@ -36,6 +37,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile "io.vertx:vertx-unit:$vertx_version"
 }
+
 sourceSets {
     main.kotlin.srcDirs += 'src/main/kotlin'
     test.kotlin.srcDirs += 'src/test/kotlin'
@@ -48,11 +50,11 @@ archivesBaseName = 'kotlinwithvertx'
 version = '1.0-SNAPSHOT'
 group = 'example'
 mainClassName = 'de.swirtz.vertx.standalone.webserver.StarterKt'
+
 jar {
     manifest {
         attributes 'Main-Class': "$mainClassName"
     }
-
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }

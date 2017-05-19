@@ -1,6 +1,8 @@
-*iml
-.idea
 .gradle
 target
 build
 .vertx
+workplace.xml
+tasks.xml
+.idea/libraries/Gradle*xml
+.iws

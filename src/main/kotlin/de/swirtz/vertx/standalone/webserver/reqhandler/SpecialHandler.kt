@@ -1,6 +1,5 @@
 package de.swirtz.vertx.standalone.webserver.reqhandler
 
-import de.swirtz.vertx.standalone.webserver.JSON_CONT_TYPE
 import de.swirtz.vertx.standalone.webserver.verticles.WebVerticleRequestCounter
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
