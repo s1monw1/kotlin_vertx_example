@@ -1,12 +1,9 @@
 # kotlin_vertx_example
-Simple Kotlin application using VertX to create an HTTP server
+Simple Kotlin application using Vert.X to create an HTTP server.
 
-This project shows the usage of http://vertx.io/docs/vertx-web/kotlin/
+This project uses features shown here: http://vertx.io/docs/vertx-web/kotlin/
 
-## Build JAR
-* Build with: _./gradlew clean jar_
-* Fat Jar is created in _/build/libs_
-* Run with _java -jar jarname_
-
-* Or run with _./gradlew run_
+## build and run the app
+* Build with: _./gradlew build_ (Fat Jar is created in _/build/libs_)
+* Run with _./gradlew run_ (alternatively run with _java -jar jarname_)
 
