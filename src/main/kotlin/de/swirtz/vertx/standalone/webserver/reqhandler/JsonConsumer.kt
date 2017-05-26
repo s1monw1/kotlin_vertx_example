@@ -1,7 +1,6 @@
 package de.swirtz.vertx.standalone.webserver.reqhandler
 
-import de.swirtz.vertx.standalone.webserver.JSON_CONT_TYPE
-import de.swirtz.vertx.standalone.webserver.verticles.WebVerticleRequestCounter
+import de.swirtz.vertx.standalone.webserver.incrementAndGetCounter
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
 import org.slf4j.LoggerFactory
@@ -18,7 +17,7 @@ class JsonConsumer : Handler<RoutingContext> {
     override fun handle(routingContext: RoutingContext) {
         val bodyAsString = routingContext.getBodyAsString("UTF-8")
         val req = routingContext.request()
-        val reqNum = WebVerticleRequestCounter.incrementAndGetCounter()
+        val reqNum = incrementAndGetCounter()
         LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}, request: $bodyAsString")
         val resp = "{\"jsonanswer\": \"anyresponse\"}"
         routingContext.response().setStatusCode(200).end(resp)

@@ -1,8 +1,7 @@
 package de.swirtz.vertx.standalone.webserver.reqhandler
 
 import de.swirtz.vertx.standalone.webserver.ACTION_WEB_REQ_RECEIVED
-import de.swirtz.vertx.standalone.webserver.JSON_CONT_TYPE
-import de.swirtz.vertx.standalone.webserver.verticles.WebVerticleRequestCounter
+import de.swirtz.vertx.standalone.webserver.incrementAndGetCounter
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 import io.vertx.core.eventbus.DeliveryOptions
@@ -24,7 +23,7 @@ class DefaultHandler(val eventBus: EventBus) : Handler<RoutingContext> {
 
     override fun handle(routingContext: RoutingContext) {
         val req = routingContext.request()
-        val reqNum = WebVerticleRequestCounter.incrementAndGetCounter()
+        val reqNum = incrementAndGetCounter()
         LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}")
         val serviceReq = JsonObject().put("request", "request json from WebVerticle").put("query", req.query())
         LOG.debug("send msg to eventBus:$ACTION_WEB_REQ_RECEIVED: $serviceReq")

@@ -1,6 +1,6 @@
 package de.swirtz.vertx.standalone.webserver.reqhandler
 
-import de.swirtz.vertx.standalone.webserver.verticles.WebVerticleRequestCounter
+import de.swirtz.vertx.standalone.webserver.incrementAndGetCounter
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
 import org.slf4j.LoggerFactory
@@ -18,7 +18,7 @@ class SpecialHandler : Handler<RoutingContext> {
     override fun handle(routingContext: RoutingContext) {
 
         val req = routingContext.request()
-        val reqNum = WebVerticleRequestCounter.incrementAndGetCounter()
+        val reqNum = incrementAndGetCounter()
         val questParam = routingContext.request().getParam("quest")
         LOG.debug("$reqNum. Got request from ${req.remoteAddress()}: method: ${req.method()}, path: ${req.path()}, quest=$questParam, acceptablecontent: ${routingContext.acceptableContentType}")
         val resp = "{\"specialcontent\": \"hello world: ${questParam ?: "noParam"}\"}"

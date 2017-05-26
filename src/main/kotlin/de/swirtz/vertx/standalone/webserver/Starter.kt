@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory
  * Created on 07.04.2017.
  * @author: simon-wirtz
  */
-
 fun main(args: Array<String>) {
     val LOG = LoggerFactory.getLogger("My-Vertx-App")
     val vertx = Vertx.vertx()
@@ -26,4 +25,5 @@ fun main(args: Array<String>) {
     opt.instances = 2
     deploy("de.swirtz.vertx.standalone.webserver.verticles.ServiceVerticle")
     deploy("de.swirtz.vertx.standalone.webserver.verticles.WebVerticle", opt)
+
 }
