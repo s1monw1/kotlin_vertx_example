@@ -21,6 +21,7 @@ fun main(args: Array<String>) {
         })
     }
 
+
     val opt = DeploymentOptions()
     opt.instances = 2
     deploy("de.swirtz.vertx.standalone.webserver.verticles.ServiceVerticle")
