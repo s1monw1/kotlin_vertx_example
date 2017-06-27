@@ -6,6 +6,7 @@ import io.vertx.ext.unit.TestContext
 import io.vertx.ext.unit.junit.RunTestOnContext
 import io.vertx.ext.unit.junit.Timeout
 import io.vertx.ext.unit.junit.VertxUnitRunner
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory
 @RunWith(VertxUnitRunner::class)
 class WebVerticleTest {
 
-    val webVertPort = 9191
+    val webVertPort = 9988
     val LOG = LoggerFactory.getLogger(WebVerticleTest::class.java)
 
     @get:Rule
@@ -34,8 +35,10 @@ class WebVerticleTest {
     @Before
     fun setup(context: TestContext) {
         vertx = rule.vertx()
-        vertx.deployVerticle(WebVerticle(webVertPort), context.asyncAssertSuccess {
-            LOG.debug("WebVerticle accessible")
+        val webVerticle = WebVerticle(webVertPort)
+        vertx.deployVerticle(webVerticle, context.asyncAssertSuccess { e->
+
+            LOG.debug("WebVerticle accessible: ${webVerticle.deploymentID()}")
         })
     }
 
@@ -60,24 +63,21 @@ class WebVerticleTest {
 
     @Test
     fun exampleTest(context: TestContext) {
+        println("start")
+
         val async = context.async()
 
         vertx.eventBus().consumer<Any>("the-address", { msg ->
             async.complete()
             context.assertNotNull(msg)
         })
-
+        println("sleep")
         Thread.sleep(2000)
+        println("after sleep")
         vertx.eventBus().publish("the-address", "MyMessage")
+        println("published")
+
     }
 
-//    @Rule
-//    var rule = RepeatRule()
-//
-//    @Repeat(1000)
-//    @Test
-//    fun testSomething(context: TestContext) {
-//        // This will be executed 1000 times
-//    }
 }
 
