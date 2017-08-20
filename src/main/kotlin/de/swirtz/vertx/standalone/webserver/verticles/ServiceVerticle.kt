@@ -23,7 +23,7 @@ class ServiceVerticle : AbstractVerticle() {
 
             //some blocking
             vertx.executeBlocking<Any>({ future ->
-                Thread.sleep(10_000)
+                Thread.sleep(3_000)
                 future.complete("Thread finished")
             }, false, { res ->
                 LOG.info("Blocking has finished: ${res.result()}")
@@ -32,9 +32,6 @@ class ServiceVerticle : AbstractVerticle() {
                 msg.reply(serviceResp)
             })
 
-//            serviceResp.put("serviceVerticleResp","answering ACTION event")
-//            LOG.debug("Reply Message $serviceResp")
-//            msg.reply(serviceResp)
         }).completionHandler { res -> LOG.debug("Consumer for '$ACTION_WEB_REQ_RECEIVED' registered: $res") }
     }
 }
