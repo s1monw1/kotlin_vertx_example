@@ -45,8 +45,6 @@ repositories {
 val fatJar = task("fatJar", type = Jar::class) {
     baseName = application.applicationName
     manifest {
-        //attributes["Implementation-Title"] = "Gradle Jar File Example"
-        //attributes["Implementation-Version"] = version
         attributes["Main-Class"] = application.mainClassName
     }
     from(configurations.runtime.map {
@@ -58,8 +56,5 @@ val fatJar = task("fatJar", type = Jar::class) {
 tasks {
     "build" {
         dependsOn(fatJar)
-    }
-    "kotlinCompile" {
-
     }
 }
