@@ -25,9 +25,12 @@ dependencies {
     compile(kotlin("stdlib", kotlin_version))
     compile(kotlin("reflect", kotlin_version))
 
-    compile("io.vertx:vertx-core:$vertx_version")
-    compile("io.vertx:vertx-web:$vertx_version")
-    compile("io.vertx:vertx-web-templ-thymeleaf:$vertx_version")
+    with("io.vertx:vertx"){
+        compile("$this-core:$vertx_version")
+        compile("$this-web:$vertx_version")
+        compile("$this-web-templ-thymeleaf:$vertx_version")
+    }
+
     compile("org.slf4j:slf4j-api:1.7.14")
     compile("ch.qos.logback:logback-classic:1.1.3")
 
